@@ -9,12 +9,18 @@ import { createStudentIfNotExists } from "@/sanity/lib/student/createStudentIfNo
 import { clerkClient } from "@clerk/nextjs/server";
 import { createEnrollment } from "@/sanity/lib/student/createEnrollment";
 
-export async function createStripeCheckout(courseId: string, userId: string) {
+export async function createStripeCheckout(
+  courseId: string,
+  userId: string
+) {
   try {
     // 1. Query course details from Sanity
     const course = await getCourseById(courseId);
-    const clerkUser = await (await clerkClient()).users.getUser(userId);
-    const { emailAddresses, firstName, lastName, imageUrl } = clerkUser;
+    const clerkUser = await (
+      await clerkClient()
+    ).users.getUser(userId);
+    const { emailAddresses, firstName, lastName, imageUrl } =
+      clerkUser;
     const email = emailAddresses[0]?.emailAddress;
 
     if (!emailAddresses || !email) {
