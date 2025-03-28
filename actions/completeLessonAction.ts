@@ -1,0 +1,15 @@
+"use server";
+import { completeLessonById } from "@/sanity/lib/lessons/completeLessonById";
+
+export async function completeLessonAction(
+  lessonId: string,
+  clerkId: string
+) {
+  try {
+    await completeLessonById({ lessonId, clerkId });
+    return { susses: true };
+  } catch (error) {
+    console.error("Error completing lesson:", error);
+    return { susses: false, error: "failed to complete lesson" };
+  }
+}

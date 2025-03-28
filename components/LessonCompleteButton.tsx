@@ -4,10 +4,11 @@ import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { completeLessonAction } from "@/app/actions/completeLessonAction";
-import { uncompleteLessonAction } from "@/app/actions/uncompleteLessonAction";
-import { getLessonCompletionStatusAction } from "@/app/actions/getLessonCompletionStatusAction";
+
+import { uncompleteLessonAction } from "@/actions/uncompleteLessonAction";
+import { getLessonCompletionStatusAction } from "@/actions/getLessonCompletionStatusAction";
 import { cn } from "@/lib/utils";
+import { completeLessonAction } from "@/actions/completeLessonAction";
 
 interface LessonCompleteButtonProps {
   lessonId: string;
@@ -19,17 +20,25 @@ export function LessonCompleteButton({
   clerkId,
 }: LessonCompleteButtonProps) {
   const [isPending, setIsPending] = useState(false);
-  const [isCompleted, setIsCompleted] = useState<boolean | null>(null);
+  const [isCompleted, setIsCompleted] = useState<boolean | null>(
+    null
+  );
   const [isPendingTransition, startTransition] = useTransition();
   const router = useRouter();
 
   useEffect(() => {
     startTransition(async () => {
       try {
-        const status = await getLessonCompletionStatusAction(lessonId, clerkId);
+        const status = await getLessonCompletionStatusAction(
+          lessonId,
+          clerkId
+        );
         setIsCompleted(status);
       } catch (error) {
-        console.error("Error checking lesson completion status:", error);
+        console.error(
+          "Error checking lesson completion status:",
+          error
+        );
         setIsCompleted(false);
       }
     });
