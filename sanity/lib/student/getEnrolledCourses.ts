@@ -1,5 +1,6 @@
 import { defineQuery } from "groq";
-import { sanityFetch } from "../live";
+import { client } from "../client"; // Import the Sanity client
+import { GetEnrolledCoursesQueryResult } from "@/sanity.types";
 
 export async function getEnrolledCourses(clerkId: string) {
   const getEnrolledCoursesQuery =
@@ -15,10 +16,10 @@ export async function getEnrolledCourses(clerkId: string) {
     }
   }`);
 
-  const result = await sanityFetch({
-    query: getEnrolledCoursesQuery,
-    params: { clerkId },
-  });
+  const result = await client.fetch<GetEnrolledCoursesQueryResult>(
+    getEnrolledCoursesQuery,
+    { clerkId }
+  );
 
-  return result?.data?.enrolledCourses || [];
+  return result?.enrolledCourses || [];
 }
