@@ -6,6 +6,7 @@ import EnrollButton from "@/components/EnrollButton";
 import getCourseBySlug from "@/sanity/lib/courses/getCourseBySlug";
 import { isEnrolledInCourse } from "@/sanity/lib/student/isEnrolledInCourse";
 import { auth } from "@clerk/nextjs/server";
+import { console } from "inspector";
 
 interface CoursePageProps {
   params: Promise<{
@@ -32,6 +33,7 @@ export default async function CoursePage({
       </div>
     );
   }
+  console.log(course);
 
   return (
     <div className="min-h-screen bg-background">
